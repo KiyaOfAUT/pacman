@@ -6,19 +6,19 @@ class Ghost:
         self.position = position
         self.map = map_
         self.available_moves = []
-        self.eval_available_moves()
 
     def move(self):
-        if not self.available_moves:
-            self.eval_available_moves()
-        return random.choices(self.available_moves)
+        self.eval_available_moves()
+        self.position = random.choice(self.available_moves)
+        return self.position
     
     def eval_available_moves(self):
-        if self.map[self.position[0]][self.position[1] - 1] != 0:
+        self.available_moves.clear()
+        if self.map[self.position[0]][self.position[1] - 1] != -1:
             self.available_moves.append([self.position[0], self.position[1] - 1])
-        if self.map[self.position[0] - 1][self.position[1]] != 0:
+        if self.map[self.position[0] - 1][self.position[1]] != -1:
             self.available_moves.append([self.position[0] - 1, self.position[1]])
-        if self.map[self.position[0]][self.position[1] + 1] != 0:
+        if self.map[self.position[0]][self.position[1] + 1] != -1:
             self.available_moves.append([self.position[0], self.position[1] + 1])
-        if self.map[self.position[0] + 1][self.position[1]] != 0:
+        if self.map[self.position[0] + 1][self.position[1]] != -1:
             self.available_moves.append([self.position[0] + 1, self.position[1]])
