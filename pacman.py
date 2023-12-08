@@ -122,10 +122,12 @@ class Pacman:
                         visited.add((current[0][0], current[0][1] - 1))
 
         def manhattan_distance(self):
-            sum_ = 0
+            min_ = float('+inf')
             for i in [self.ghost1, self.ghost2]:
-                sum_ += abs(self.pacman[0] - i[0]) + abs(self.pacman[1] - i[1])
-            return sum_
+                hold = abs(self.pacman[0] - i[0]) + abs(self.pacman[1] - i[1])
+                if min_ > hold:
+                    min_ = hold
+            return min_
 
         def won_or_lost(self):
             if self.pacman == self.ghost1 or self.pacman == self.ghost2 or self.score <= 0:
