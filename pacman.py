@@ -14,20 +14,21 @@ class Pacman:
         self.hold = 0
 
     def move(self, current_state):
-        depth = 8
+        depth = 4
         map_ = copy.copy(current_state.map)
         max_ = float('-inf')
         pos_ = current_state.pacman
         state_ = self.State(current_state.pacman, current_state.ghost1, current_state.ghost2, map_, current_state.score)
         for i in (state_.eval_available_moves(current_state.pacman)):
             state = self.State(current_state.pacman, current_state.ghost1, current_state.ghost2, map_, current_state.score)
-            if self.map[i[0]][i[1]] == 1:
+            if map_[i[0]][i[1]] == 1:
                 state.score = state.score + 5
             else:
                 state.score = state.score - 1
             state.map[i[0], i[1]] = 0
             state.pacman = [i[0], i[1]]
             hold = self.minimax(2, 1, depth, state)
+            # print([i[0], i[1]], ":", hold)
             if hold > max_:
                 max_ = hold
                 pos_ = i
@@ -35,12 +36,12 @@ class Pacman:
 
     def minimax(self, agent, current_depth, depth, state):
         status = state.won_or_lost()
-        if current_depth == depth:
-            return state.e_utility()
         if status == 0:
             return float('-inf')
-        elif status == 1:
+        if status == 1:
             return float('+inf')
+        if current_depth == depth:
+            return state.e_utility()
         if agent == 1:
             max_value = float('-inf')
             for i in state.eval_available_moves(state.pacman):
@@ -89,7 +90,10 @@ class Pacman:
         def e_utility(self):
             manhattan_dist = self.manhattan_distance()
             nearest_dot = self.dist_to_nearest_dot()
-            return 100 * manhattan_dist - 1000 * nearest_dot
+            dots = self.count_dots()
+            # print(self.score)
+            # print(self.ghost1 ,self.ghost2, self.pacman, manhattan_dist, nearest_dot, self.score)
+            return manhattan_dist * 5 - nearest_dot * 10 + self.score * 10 + dots * -100
 
         def dist_to_nearest_dot(self):
             map_ = copy.copy(self.map)

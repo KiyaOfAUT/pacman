@@ -21,7 +21,6 @@ class WorldState:
                                           [-1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, -1],
                                           [-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1]])
                                 , pacman_p, ghost1_p, ghost2_p, 0)
-        self.score = 0
         self.status = 2
         self.test = test
         self.pacman1 = None
@@ -58,10 +57,10 @@ class WorldState:
     def update(self, position, agent):
         if agent == 1:
             if self.state.map[position[0]][position[1]] == 1:
-                self.score = self.score + 5
+                self.state.score = self.state.score + 5
                 self.state.map[position[0]][position[1]] = 0
             else:
-                self.score = self.score - 1
+                self.state.score = self.state.score - 1
             self.state.pacman = position
         if agent == 2:
             self.state.ghost1 = position
@@ -73,10 +72,8 @@ class WorldState:
         for row in self.state.map:
             row_str = ""
             for house in row:
-                # print(position)
-
                 if self.state.pacman == position:
-                    if self.state.pacman == self.state.ghost1 or self.state.pacman == self.state.ghost2 or self.score < 0:
+                    if self.state.pacman == self.state.ghost1 or self.state.pacman == self.state.ghost2 or self.state.score < 0:
                         row_str += "☠️"
                     else:
                         row_str += "😃"
@@ -94,11 +91,11 @@ class WorldState:
             print(row_str)
             position[1] = 0
             position = [position[0] + 1, position[1]]
-        print("\n\n score: ", self.score)
+        print("\n\n score: ", self.state.score)
         time.sleep(0.1)
 
     def eval_game_status(self):
-        if self.state.pacman == self.state.ghost1 or self.state.pacman == self.state.ghost2 or self.score < 0:
+        if self.state.pacman == self.state.ghost1 or self.state.pacman == self.state.ghost2 or self.state.score < 0:
             if not self.test:
                 self.print()
                 self.lost()
