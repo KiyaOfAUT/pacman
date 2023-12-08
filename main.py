@@ -9,17 +9,19 @@ ghost_test = [(1, 2), (1, 3), (2, 4), (2, 8), (3, 4),
 pacman_test = [(1, 1), (2, 1), (3, 1), (4, 1),
                (5, 1), (6, 1), (7, 1), (3, 12),
                (8, 4), (9, 1), (10, 1), (1, 8)]
-world = w.WorldState(random.choice(pacman_test), random.choice(ghost_test), random.choice(ghost_test), False)
-world.start()
-
-# wins = 0
-# step = 0
-# for i in range(100):
-#     test_world = w.WorldState(random.choice(pacman_test), random.choice(ghost_test), random.choice(ghost_test), True)
-#     step = step + 1
-#     if test_world.start():
-#         print(step, " :", "\033[92m" + " win!" + "\033[0m")
-#         wins = wins + 1
-#     else:
-#         print(step, " :", "\033[91m" +  "lose!" + "\033[0m")
-# print("win ratio for 100 random games played is:", (wins / 100) * 100, "percent")
+option = bool(int(input("Which mode do you want? write the number and press enter:\n 0: Game mode\n 1: Test mode\n")))
+if option:
+    wins = 0
+    step = 0
+    for i in range(100):
+        test_world = w.WorldState(random.choice(pacman_test), random.choice(ghost_test), random.choice(ghost_test), True)
+        step = step + 1
+        if test_world.start():
+            print(step, " :", "\033[92m" + " win!" + "\033[0m")
+            wins = wins + 1
+        else:
+            print(step, " :", "\033[91m" + "lose!" + "\033[0m")
+    print("win ratio for 100 random games played is:", (wins / 100) * 100, "percent")
+else:
+    world = w.WorldState(random.choice(pacman_test), random.choice(ghost_test), random.choice(ghost_test), option)
+    world.start()
