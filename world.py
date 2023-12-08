@@ -108,8 +108,8 @@ class WorldState:
             return 1
         else:
             if not self.test:
-                self.print()
                 os.system('cls' if os.name == 'nt' else 'clear')
+                self.print()
             return 2
 
     def count_dots(self):

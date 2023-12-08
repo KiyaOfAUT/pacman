@@ -22,4 +22,4 @@ world.start()
 #         wins = wins + 1
 #     else:
 #         print(step, " :", "\033[91m" +  "lose!" + "\033[0m")
-# print("win ratio:", (wins / 100) * 100, "percent")
+# print("win ratio for 100 random games played is:", (wins / 100) * 100, "percent")

@@ -27,14 +27,13 @@ class Pacman:
                 state.score = state.score - 1
             state.map[i[0], i[1]] = 0
             state.pacman = [i[0], i[1]]
-            hold = self.minimax(2, 1, depth, state)
-            # print([i[0], i[1]], ":", hold)
+            hold = self.minimax(2, 1, depth, state, float('-inf'), float('+inf'))
             if hold > max_:
                 max_ = hold
                 pos_ = i
         return pos_
 
-    def minimax(self, agent, current_depth, depth, state):
+    def minimax(self, agent, current_depth, depth, state, alpha, beta):
         status = state.won_or_lost()
         if status == 0:
             return float('-inf')
@@ -45,23 +44,29 @@ class Pacman:
         if agent == 1:
             max_value = float('-inf')
             for i in state.eval_available_moves(state.pacman):
-                hold = self.minimax(2, current_depth + 1, depth, self.new_state(state, 0, copy.copy(i)))
-                if max_value < hold:
-                    max_value = hold
+                hold = self.minimax(2, current_depth + 1, depth, self.new_state(state, 0, copy.copy(i)), alpha, beta)
+                max_value = max(max_value, hold)
+                alpha = max(alpha, hold)
+                if beta <= alpha:
+                    break
             return max_value
         if agent == 2:
             min_value = float('+inf')
             for i in state.eval_available_moves(state.ghost1):
-                hold = self.minimax(3, current_depth + 1, depth, self.new_state(state, 1, copy.copy(i)))
-                if hold < min_value:
-                    min_value = hold
+                hold = self.minimax(3, current_depth + 1, depth, self.new_state(state, 1, copy.copy(i)), alpha, beta)
+                min_value = min(min_value, hold)
+                beta = min(beta, hold)
+                if beta <= alpha:
+                    break
             return min_value
         if agent == 3:
             min_value = float('+inf')
             for i in state.eval_available_moves(state.ghost2):
-                hold = self.minimax(1, current_depth + 1, depth, self.new_state(state, 2, copy.copy(i)))
-                if hold < min_value:
-                    min_value = hold
+                hold = self.minimax(1, current_depth + 1, depth, self.new_state(state, 2, copy.copy(i)), alpha, beta)
+                min_value = min(min_value, hold)
+                beta = min(beta, hold)
+                if beta <= alpha:
+                    break
             return min_value
 
     def new_state(self, state, agent, new_position):
@@ -91,8 +96,8 @@ class Pacman:
             manhattan_dist = self.manhattan_distance()
             nearest_dot = self.dist_to_nearest_dot()
             dots = self.count_dots()
-            # print(self.score)
-            # print(self.ghost1 ,self.ghost2, self.pacman, manhattan_dist, nearest_dot, self.score)
+            if dots == 1:
+                return self.score * 1000 - nearest_dot
             return manhattan_dist * 5 - nearest_dot * 10 + self.score * 10 + dots * -100
 
         def dist_to_nearest_dot(self):
