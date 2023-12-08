@@ -12,14 +12,14 @@ pacman_test = [(1, 1), (2, 1), (3, 1), (4, 1),
 world = w.WorldState(random.choice(pacman_test), random.choice(ghost_test), random.choice(ghost_test), False)
 world.start()
 
-wins = 0
-step = 0
+# wins = 0
+# step = 0
 # for i in range(100):
 #     test_world = w.WorldState(random.choice(pacman_test), random.choice(ghost_test), random.choice(ghost_test), True)
 #     step = step + 1
 #     if test_world.start():
-#         print(step, " : win!")
+#         print(step, " :", "\033[92m" + " win!" + "\033[0m")
 #         wins = wins + 1
 #     else:
-#         print(step, " : lose!")
+#         print(step, " :", "\033[91m" +  "lose!" + "\033[0m")
 # print("win ratio:", (wins / 100) * 100, "percent")
