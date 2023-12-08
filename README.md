@@ -14,7 +14,8 @@ a basic implementation of PACMAN game using minimax tree
 
 ## Installation
 **pacman folder contains virtual environment files and needed libraries**
-in game main folder run .\pacman\scripts\activate file to activate virtual environment then run main.py file
+
+In game main folder run .\pacman\scripts\activate file to activate virtual environment then run main.py file
 ### For Windows
     .\pacman\scripts\activate & py main.py
 ### For Unix-based systems (Linux, macOS)
